@@ -12,8 +12,6 @@ import com.example.mrizk_000.simplebioskopapp.models.Menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 

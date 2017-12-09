@@ -11,10 +11,31 @@
         android:id="@+id/theater_toolbar"
         layout="@layout/view_toolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/theater_recyclerView"
+    <FrameLayout
+        android:id="@+id/theater_frameLoading"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/theater_frameTheater"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/theater_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
+
+
 
 </LinearLayout>

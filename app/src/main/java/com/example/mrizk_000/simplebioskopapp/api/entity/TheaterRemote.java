@@ -1,30 +1,31 @@
-package com.example.mrizk_000.simplebioskopapp.models;
+package com.example.mrizk_000.simplebioskopapp.api.entity;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by mrizk_000 on 12/7/2017.
+ * Created by mrizk_000 on 12/9/2017.
  */
 
-public class Theater {
-    private int id;
+public class TheaterRemote {
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("address")
+    @Expose
     private String address;
+    @SerializedName("description")
+    @Expose
     private String description;
 
-    public Theater() {
-    }
-
-    public Theater(int id, String name, String address, String description) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.description = description;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

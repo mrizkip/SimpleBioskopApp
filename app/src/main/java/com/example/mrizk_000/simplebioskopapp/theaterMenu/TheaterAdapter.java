@@ -13,8 +13,6 @@ import com.example.mrizk_000.simplebioskopapp.models.Theater;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by mrizk_000 on 12/7/2017.

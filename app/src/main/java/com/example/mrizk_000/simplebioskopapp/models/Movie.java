@@ -13,6 +13,9 @@ public class Movie {
     private String genre;
     private int release;
 
+    public Movie() {
+    }
+
     public Movie(int id, int theater_id, String name, String synopsis, int duration, String genre, int release) {
         this.id = id;
         this.theater_id = theater_id;
