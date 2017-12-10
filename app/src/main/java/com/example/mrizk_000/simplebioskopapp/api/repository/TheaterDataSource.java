@@ -30,6 +30,7 @@ public class TheaterDataSource implements ITheaterRepository {
     private TheaterRemoteToTheater theaterRemoteToTheaterMapper;
 
     public TheaterDataSource() {
+        // Create retrofit builder
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
@@ -45,14 +46,17 @@ public class TheaterDataSource implements ITheaterRepository {
         theaterRemoteToTheaterMapper = new TheaterRemoteToTheater();
     }
 
+    // Get Theaters from remote
     @Override
     public void getTheater(final RepositoryCallback<List<Theater>> callback) {
         remoteTheaterDataSource.theaters().enqueue(new Callback<DataTheater>() {
             @Override
             public void onResponse(Call<DataTheater> call, Response<DataTheater> response) {
+                // jika respon berhasil
                 if (response.isSuccessful()) {
                     List<Theater> theaters = new ArrayList<>();
                     List<TheaterRemote> theaterRemotes = response.body().getDataTheater();
+                    // merubah TheaterRemote menjadi Theater
                     for (TheaterRemote theaterRemote : theaterRemotes) {
                         Theater theater = theaterRemoteToTheaterMapper.transform(theaterRemote);
                         theaters.add(theater);

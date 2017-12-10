@@ -14,10 +14,8 @@ import android.widget.FrameLayout;
 
 import com.example.mrizk_000.simplebioskopapp.R;
 import com.example.mrizk_000.simplebioskopapp.api.callback.RepositoryCallback;
-import com.example.mrizk_000.simplebioskopapp.api.repository.RemoteTheaterDataSource;
 import com.example.mrizk_000.simplebioskopapp.api.repository.TheaterDataSource;
 import com.example.mrizk_000.simplebioskopapp.models.Theater;
-import com.example.mrizk_000.simplebioskopapp.repository.ITheaterRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,29 +53,22 @@ public class TheaterActivity extends AppCompatActivity {
         }
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        // Configuring RecyclerView LayoutManager
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
 
         theaterDataSource = new TheaterDataSource();
 
-//        theaters = new ArrayList<>();
-//        theaters.add(new Theater(1, "Bioskop 21", "Jl. Malang", "Bioskop Keren"));
-//        theaters.add(new Theater(2, "Bioskop Cinemaxx", "Jl. Malang", "Bioskop Keren"));
-
         fetchTheaters();
     }
 
     private void fetchTheaters() {
-//        final ProgressDialog progressDialog = new ProgressDialog(this);
-//        progressDialog.setMax(100);
-//        progressDialog.setIndeterminate(true);
-//        progressDialog.setMessage("Mengambil data Bioskop dari server...");
-//        progressDialog.show();
         frameLayoutLoading.setVisibility(View.VISIBLE);
         frameLayoutShow.setVisibility(View.GONE);
 
         theaters = new ArrayList<>();
+        // get Theater from remote
         theaterDataSource.getTheater(new RepositoryCallback<List<Theater>>() {
             @Override
             public void onDataReceived(List<Theater> data) {
@@ -86,17 +77,12 @@ public class TheaterActivity extends AppCompatActivity {
                     frameLayoutLoading.setVisibility(View.GONE);
                     theaters.addAll(data);
 
-                    Log.d("AddTheater,", "fetch success");
-//                    progressDialog.dismiss();
-
                     mAdapter = new TheaterAdapter(getBaseContext(), theaters);
                     recyclerView.setAdapter(mAdapter);
 
                 } else {
                     frameLayoutShow.setVisibility(View.VISIBLE);
                     frameLayoutLoading.setVisibility(View.GONE);
-                    Log.d("AddTheater", "fetch failed");
-//                    progressDialog.dismiss();
                 }
             }
         });
@@ -104,6 +90,7 @@ public class TheaterActivity extends AppCompatActivity {
 
     }
 
+    // Add back button on Actionbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

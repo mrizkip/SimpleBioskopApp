@@ -1,6 +1,7 @@
 package com.example.mrizk_000.simplebioskopapp.movieMenu;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,8 @@ public class NowShowingFragment extends Fragment {
 
     private MovieDataSource movieDataSource;
 
+    private Context context;
+
     public NowShowingFragment() {
         // Required empty public constructor
     }
@@ -56,9 +59,12 @@ public class NowShowingFragment extends Fragment {
         frameLayoutLoading = (FrameLayout) view.findViewById(R.id.nowShowing_frameLoading);
         frameLayoutShow = (FrameLayout) view.findViewById(R.id.nowShowing_frameNowShowing);
 
+        // configuring recyclerView Layout manager
         recyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this.getContext());
+        mLayoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+
+        context = this.getContext();
 
         movieDataSource = new MovieDataSource();
 
@@ -70,22 +76,21 @@ public class NowShowingFragment extends Fragment {
         frameLayoutShow.setVisibility(View.GONE);
 
         movies = new ArrayList<>();
+        // get Now Showing Movies from remote
         movieDataSource.getNowShowingMovies(new RepositoryCallback<List<Movie>>() {
             @Override
             public void onDataReceived(List<Movie> data) {
                 if (data != null) {
-                    frameLayoutShow.setVisibility(View.VISIBLE);
                     frameLayoutLoading.setVisibility(View.GONE);
+                    frameLayoutShow.setVisibility(View.VISIBLE);
 
                     movies.addAll(data);
-                    Log.d("AddMovies", "success");
 
                     mAdapter = new NowShowingAdapter(getContext(), movies);
                     recyclerView.setAdapter(mAdapter);
                 } else {
-                    frameLayoutLoading.setVisibility(View.VISIBLE);
                     frameLayoutShow.setVisibility(View.GONE);
-                    Log.d("AddMovies", "failed");
+                    frameLayoutLoading.setVisibility(View.VISIBLE);
                 }
             }
         });

@@ -42,6 +42,7 @@ public class MovieActivity extends AppCompatActivity {
         }
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        // Configuring SmartTab Layout using Fragments
         adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add("NOW SHOWING", NowShowingFragment.class)
@@ -58,6 +59,7 @@ public class MovieActivity extends AppCompatActivity {
 
             }
 
+            // Selected Page
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
@@ -74,6 +76,7 @@ public class MovieActivity extends AppCompatActivity {
         });
     }
 
+    // Add back button on Actionbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

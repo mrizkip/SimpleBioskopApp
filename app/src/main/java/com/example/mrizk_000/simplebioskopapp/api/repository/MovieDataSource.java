@@ -1,5 +1,7 @@
 package com.example.mrizk_000.simplebioskopapp.api.repository;
 
+import android.util.Log;
+
 import com.example.mrizk_000.simplebioskopapp.api.callback.RepositoryCallback;
 import com.example.mrizk_000.simplebioskopapp.api.entity.DataMovie;
 import com.example.mrizk_000.simplebioskopapp.api.entity.MovieRemote;
@@ -28,7 +30,9 @@ public class MovieDataSource implements IMovieRepository {
     private Retrofit builder;
     private MovieRemoteToMovie movieRemoteToMovieMapper;
 
+    // Constructor
     public MovieDataSource() {
+        // Create Retrofit builder
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
@@ -44,14 +48,17 @@ public class MovieDataSource implements IMovieRepository {
         movieRemoteToMovieMapper= new MovieRemoteToMovie();
     }
 
+    // Get Now Showing Movies from remote
     @Override
     public void getNowShowingMovies(final RepositoryCallback<List<Movie>> callback) {
         remoteMovieDataSource.nowShowing().enqueue(new Callback<DataMovie>() {
             @Override
             public void onResponse(Call<DataMovie> call, Response<DataMovie> response) {
+                // Jika respon berhasil
                 if (response.isSuccessful()) {
                     List<Movie> movies = new ArrayList<>();
-                    List<MovieRemote> movieRemotes = new ArrayList<>();
+                    List<MovieRemote> movieRemotes = response.body().getDataMovie();
+                    // Merubah MovieRemote menjadi Movie model
                     for (MovieRemote movieRemote : movieRemotes) {
                         Movie movie = movieRemoteToMovieMapper.transform(movieRemote);
                         movies.add(movie);
@@ -69,18 +76,22 @@ public class MovieDataSource implements IMovieRepository {
         });
     }
 
+    // Get Upcoming Movies from remote
     @Override
     public void getUpcomingMovies(final RepositoryCallback<List<Movie>> callback) {
         remoteMovieDataSource.upcoming().enqueue(new Callback<DataMovie>() {
             @Override
             public void onResponse(Call<DataMovie> call, Response<DataMovie> response) {
+                // jika respon berhasil
                 if (response.isSuccessful()) {
                     List<Movie> movies = new ArrayList<>();
-                    List<MovieRemote> movieRemotes = new ArrayList<>();
+                    List<MovieRemote> movieRemotes = response.body().getDataMovie();
+                    // Merubah MovieRemote menjadi Movie model
                     for (MovieRemote movieRemote : movieRemotes) {
                         Movie movie = movieRemoteToMovieMapper.transform(movieRemote);
                         movies.add(movie);
                     }
+                    Log.d("MovieRemoteSize", String.valueOf(movieRemotes.size()));
                     callback.onDataReceived(movies);
                 } else {
                     callback.onDataReceived(null);

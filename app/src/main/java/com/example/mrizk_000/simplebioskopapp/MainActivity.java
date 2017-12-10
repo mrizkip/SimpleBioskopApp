@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setTitle("Simple Bioskop App");
         }
 
+        // Configuring RecyclerView LayoutManager
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
