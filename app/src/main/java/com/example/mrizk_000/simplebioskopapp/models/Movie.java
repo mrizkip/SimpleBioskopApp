@@ -12,6 +12,8 @@ public class Movie {
     private int duration;
     private String genre;
     private int release;
+    private String playDate;
+    private Theater theaterDetail;
 
     public Movie() {
     }
@@ -80,5 +82,21 @@ public class Movie {
 
     public void setRelease(int release) {
         this.release = release;
+    }
+
+    public String getPlayDate() {
+        return playDate;
+    }
+
+    public void setPlayDate(String playDate) {
+        this.playDate = playDate;
+    }
+
+    public Theater getTheaterDetail() {
+        return theaterDetail;
+    }
+
+    public void setTheaterDetail(Theater theaterDetail) {
+        this.theaterDetail = theaterDetail;
     }
 }

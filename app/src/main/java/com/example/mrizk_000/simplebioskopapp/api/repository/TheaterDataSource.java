@@ -27,7 +27,7 @@ public class TheaterDataSource implements ITheaterRepository {
 
     private RemoteTheaterDataSource remoteTheaterDataSource;
     private Retrofit builder;
-    TheaterRemoteToTheater theaterRemoteToTheaterMapper;
+    private TheaterRemoteToTheater theaterRemoteToTheaterMapper;
 
     public TheaterDataSource() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

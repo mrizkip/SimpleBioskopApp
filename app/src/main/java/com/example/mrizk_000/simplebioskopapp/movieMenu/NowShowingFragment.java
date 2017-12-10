@@ -4,14 +4,20 @@ package com.example.mrizk_000.simplebioskopapp.movieMenu;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.mrizk_000.simplebioskopapp.R;
+import com.example.mrizk_000.simplebioskopapp.api.callback.RepositoryCallback;
+import com.example.mrizk_000.simplebioskopapp.api.repository.MovieDataSource;
 import com.example.mrizk_000.simplebioskopapp.models.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,9 +26,15 @@ import java.util.List;
 public class NowShowingFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
-    List<Movie> movies;
+    private FrameLayout frameLayoutShow;
+    private FrameLayout frameLayoutLoading;
 
+    private List<Movie> movies;
+
+    private MovieDataSource movieDataSource;
 
     public NowShowingFragment() {
         // Required empty public constructor
@@ -41,6 +53,41 @@ public class NowShowingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.nowShowing_recyclerView);
+        frameLayoutLoading = (FrameLayout) view.findViewById(R.id.nowShowing_frameLoading);
+        frameLayoutShow = (FrameLayout) view.findViewById(R.id.nowShowing_frameNowShowing);
 
+        recyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        movieDataSource = new MovieDataSource();
+
+        fetchMovieNowShow();
+    }
+
+    private void fetchMovieNowShow() {
+        frameLayoutLoading.setVisibility(View.VISIBLE);
+        frameLayoutShow.setVisibility(View.GONE);
+
+        movies = new ArrayList<>();
+        movieDataSource.getNowShowingMovies(new RepositoryCallback<List<Movie>>() {
+            @Override
+            public void onDataReceived(List<Movie> data) {
+                if (data != null) {
+                    frameLayoutShow.setVisibility(View.VISIBLE);
+                    frameLayoutLoading.setVisibility(View.GONE);
+
+                    movies.addAll(data);
+                    Log.d("AddMovies", "success");
+
+                    mAdapter = new NowShowingAdapter(getContext(), movies);
+                    recyclerView.setAdapter(mAdapter);
+                } else {
+                    frameLayoutLoading.setVisibility(View.VISIBLE);
+                    frameLayoutShow.setVisibility(View.GONE);
+                    Log.d("AddMovies", "failed");
+                }
+            }
+        });
     }
 }

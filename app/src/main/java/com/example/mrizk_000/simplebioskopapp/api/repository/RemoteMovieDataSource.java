@@ -12,9 +12,9 @@ import retrofit2.http.GET;
 
 public interface RemoteMovieDataSource {
 
-    @GET("movies/now")
+    @GET("movie/now")
     Call<DataMovie> nowShowing();
 
-    @GET("movies/upcoming")
+    @GET("movie/upcoming")
     Call<DataMovie> upcoming();
 }
